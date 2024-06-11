@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Word Guessing Game</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .rectangle {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            margin: 5px;
+            font-size: 24px;
+            text-align: center;
+            line-height: 50px;
+            border: 1px solid #000;
+            transition: all 0.3s ease;
+        }
+        .rectangle:hover {
+            transform: scale(1.1);
+            border-color: #007bff;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .navbar-brand, .container h1 {
+            text-align: center;
+            width: 100%;
+        }
+        .guess-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Word Guessing Game</a>
+    <div class="ml-auto">My Lives-:
+        <span th:each="i : ${#numbers.sequence(1, lives)}">
+            <i class="fas fa-heart text-danger"></i>
+        </span>
+    </div>
+</nav>
+<div class="container center">
+    <h1>Word Guessing Game</h1>
+    <p>Hint: <span th:text="${hint}"></span></p>
+    <p>Difficulty Level: <span th:text="${difficulty}"></span></p>
+    <form id="guessForm" th:action="@{/guess}" method="post" class="w-50">
+        <input type="hidden" th:value="${word.id}" name="wordId"/>
+        <div class="form-group">
+            <label for="guessInput">Enter your guess:</label>
+            <input type="text" id="guessInput" name="guess" class="form-control" maxlength="5" required>
+        </div>
+        <button type="submit" id="guessButton" class="btn btn-primary w-100">Submit Guess</button>
+    </form>
+    <div class="mt-3 text-center">
+        <h2>Your Guess:</h2>
+        <div class="guess-container">
+            <div th:each="letter : ${gameState.letters}">
+                <div class="rectangle badge" th:classappend=" ${letter.color}" th:text="${letter.character}"></div>
+            </div>
+        </div>
+    </div>
+    <div th:if="${message}" class="mt-3 text-center">
+        <div class="alert alert-info" th:text="${message}"></div>
+        <a href="/" class="btn btn-secondary">Play Again</a>
+    </div>
+</div>
+</body>
+</html>
