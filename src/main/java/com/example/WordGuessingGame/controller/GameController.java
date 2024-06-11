@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/game")
 public class GameController {
 
     @Autowired
@@ -17,7 +18,7 @@ public class GameController {
     private static final int MAX_LIVES = 5;
     private int lives = MAX_LIVES;
 
-    @GetMapping("/")
+    @GetMapping("/dashboard")
     public String dashboard() {
         return "dashboard";
     }

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
-            background: url('digital-art-abstract-logo-guessing-wallpaper.jpg') no-repeat center center fixed;
+            background: url('/digital-art-abstract-logo-guessing-wallpaper.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #000000;
         }
@@ -32,9 +32,23 @@
             flex-direction: column;
             height: 100vh;
         }
-        .navbar-brand, .container h1 {
-            text-align: center;
-            width: 100%;
+        .navbar {
+            background: rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid #444;
+        }
+        .navbar-brand {
+            color: #fff !important;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .navbar .nav-link {
+            color: #ddd !important;
+        }
+        .navbar .nav-link:hover {
+            color: #fff !important;
+        }
+        .navbar .fa-heart {
+            color: red;
         }
         .guess-container {
             display: flex;
@@ -42,7 +56,7 @@
             flex-wrap: wrap;
         }
         .animate-fade {
-            animation: fadeIn 2s ease-in-out;
+            animation: fadeIn 2s;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -51,25 +65,27 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="#">Word Guessing Game</a>
-    <div class="ml-auto">My Lives-:
-        <span th:each="i : ${#numbers.sequence(1, lives)}">
-            <i class="fas fa-heart text-danger animate-fade"></i>
-        </span>
+    <div class="ml-auto">
+        <div class="navbar-brand">My Lives:
+            <span th:each="i : ${#numbers.sequence(1, lives)}">
+                <i class="fas fa-heart text-danger animate-fade"></i>
+            </span>
+        </div>
     </div>
 </nav>
 <div class="container center">
     <h1 class="animate-fade">Word Guessing Game</h1>
     <p>Hint: <span th:text="${hint}"></span></p>
     <p>Difficulty Level: <span th:text="${difficulty}"></span></p>
-    <form id="guessForm" th:action="@{/guess}" method="post" class="w-50 animate-fade">
+    <form id="guessForm" th:action="@{/game/guess}" method="post" class="w-50 animate-fade">
         <input type="hidden" th:value="${word.id}" name="wordId"/>
         <div class="form-group">
             <label for="guessInput">Enter your guess:</label>
             <input type="text" id="guessInput" name="guess" class="form-control" maxlength="5" required>
         </div>
-        <button type="submit" id="guessButton" class="btn btn-primary w-100">Submit Guess</button>
+        <button type="submit" id="guessButton" class="btn btn-dark w-100">Submit Guess</button>
     </form>
     <div class="mt-3 text-center animate-fade">
         <h2>Your Guess:</h2>
@@ -81,8 +97,41 @@
     </div>
     <div th:if="${message}" class="mt-3 text-center animate-fade">
         <div class="alert alert-info" th:text="${message}"></div>
-        <a href="/" class="btn btn-secondary">Play Again</a>
+        <!-- Trigger the modal -->
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#endGameModal">End Game</button>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="endGameModal" tabindex="-1" aria-labelledby="endGameModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="endGameModalLabel">Game Over</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p th:text="${message}"></p>
+            </div>
+            <div class="modal-footer">
+                <a href="/game/dashboard" class="btn btn-success">Play Again</a>
+                <a href="/logout" class="btn btn-dark">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (document.querySelector(".alert")) {
+            $('#endGameModal').modal('show');
+        }
+    });
+</script>
 </body>
 </html>
