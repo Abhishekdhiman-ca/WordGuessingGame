@@ -17,9 +17,37 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        .navbar {
+            background: rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid #444;
+        }
+        .navbar-brand {
+            color: #fff !important;
+            font-size: 24px;
+            font-weight: bold;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .navbar .nav-link {
+            color: #ddd !important;
+        }
+        .navbar .nav-link:hover {
+            color: #fff !important;
+        }
+        .navbar .btn-danger {
+            color: #fff;
+            border-color: #ff0000;
+        }
+        .navbar .btn-danger:hover {
+            background-color: #ff0000;
+            border-color: #ff0000;
+        }
     </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark justify-content-center">
+    <a class="navbar-brand" href="#">Word Guessing Game</a>
+</nav>
 <div class="container mt-5">
     <h2>Signup</h2>
     <form action="/signup" method="post">
